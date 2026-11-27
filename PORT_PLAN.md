@@ -1146,8 +1146,8 @@ Where the code departs from this plan, or cannot match CopilotKit, found while b
 
 **Found for later phases**
 
-24. `Blueprint` (the playground agent's stand-in) is still not built, so the replays report it as an unknown
-    component; `includeBlueprint` stays planned.
+24. `Blueprint` (the playground agent's stand-in) draws when `A2uiKitOptions.includeBlueprint` is set, and
+    stays out of the exported catalog. The gallery and the replays turn it on. See Appendix A.
 25. `standard-all.json`'s TextArea draws nothing until phase 4, though TextField's `longText` already is one.
 26. `a2ui_flutter` does not export its write-back helper, so a2ui_kit has its own (`valueWriter`).
 
@@ -3783,8 +3783,8 @@ in section 2.
 
 ### Blueprint (internal, not in the catalog)
 
-Blueprint is not in `catalog.json`: the playground's agent emits `{component: "Blueprint", of, h, state}` while a component's props stream, and for fixed-template slots. It renders a pulsing block (`h ?? SLOT[of]`, default 72px, radius 12). The replay fixtures contain it.
+Blueprint is not in `catalog.json`: the playground's agent emits `{component: "Blueprint", of, h, state, hideName}` while a component's props stream, and for fixed-template slots. It renders a frame (`h`, else the slot of `of`, 72px when `of` is missing or an id, and at least 28px) whose caption is `of` with one leading `#` removed. `hideName` draws the frame with no caption. The replay fixtures contain it.
 
-Recommendation: ship it as an opt-in extra component (`includeBlueprint: true`), outside the exported schema, so the
+It ships as an opt-in extra component (`includeBlueprint: true`), outside the exported schema, so the
 replays and any playground agent stream render the way the playground does. It is off by default, because a strict
-client should reject names its catalog does not declare.
+client refuses a name its catalog does not declare. The gallery and the recorded replays pass `includeBlueprint: true`.

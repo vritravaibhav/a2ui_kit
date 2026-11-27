@@ -1,6 +1,6 @@
 name: a2ui_kit
 description: >-
-  Generative UI for Flutter: 53 ready-made A2UI components (charts, tables,
+  Generative UI for Flutter: 60 ready-made A2UI components (charts, tables,
   LaTeX maths, Markdown, forms, SVG) on a2ui_flutter, matching CopilotKit's
   A2UI Playground catalog.
 version: 0.1.0

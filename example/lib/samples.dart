@@ -1,6 +1,9 @@
 // The playground's component previews (a2ui.open.bot and samples/*.ts),
 // for the components this version draws. A part that only renders inside
 // its parent (GridItem, TableRow, ListItem) uses the preview its page shows.
+// The menu lists them by name.
+
+import 'dart:collection';
 
 /// One gallery entry: the surface and, when props bind into it, the data.
 class GallerySample {
@@ -76,8 +79,8 @@ final List<Map<String, Object?>> _incidents = [
   },
 ];
 
-/// The sample surfaces of the gallery, in the official category order.
-final Map<String, GallerySample> gallerySamples = {
+/// The sample surfaces of the gallery, listed by name.
+final Map<String, GallerySample> gallerySamples = SplayTreeMap.of({
   // Layout.
   'Section': GallerySample([
     {
@@ -220,6 +223,25 @@ final Map<String, GallerySample> gallerySamples = {
           'values': <Object?>['', '99.9%', '99.99%'],
         },
       ],
+    },
+  ]),
+  'Progress': GallerySample([
+    {
+      'id': 'root',
+      'component': 'Progress',
+      'label': 'Storage used',
+      'value': 72,
+      'caption': '72 GB of 100 GB, resets Nov 1',
+      'tone': 'accent',
+    },
+  ]),
+  'Rating': GallerySample([
+    {
+      'id': 'root',
+      'component': 'Rating',
+      'value': 4.6,
+      'count': 1284,
+      'label': 'Customer rating',
     },
   ]),
   'StatGroup': GallerySample([
@@ -880,6 +902,32 @@ final Map<String, GallerySample> gallerySamples = {
       ],
     },
   ]),
+  'FollowUp': GallerySample([
+    {
+      'id': 'root',
+      'component': 'FollowUp',
+      'title': 'Try next',
+      'items': [
+        'Compare with last quarter',
+        'Break down by region',
+        'Export as CSV',
+      ],
+    },
+  ]),
+  'EntityCard': GallerySample([
+    {
+      'id': 'root',
+      'component': 'EntityCard',
+      'title': 'Trailhead Daypack 22L',
+      'subtitle': 'Backpacks',
+      'description':
+          'A light pack with a padded laptop sleeve and a rain cover.',
+      'meta': r'$89',
+      'badge': {'label': 'In stock', 'color': 'success'},
+      'rating': 4.6,
+      'ratingCount': 312,
+    },
+  ]),
   // The playground agent's stand-in: a frame sized for the component
   // whose props are still streaming, captioned with the name already
   // written. `#stops` is an id whose type has not arrived.
@@ -928,7 +976,7 @@ final Map<String, GallerySample> gallerySamples = {
       'state': 'streaming',
     },
   ]),
-};
+});
 
 const List<String> _months = [
   'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', //
