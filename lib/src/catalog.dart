@@ -62,7 +62,7 @@ CatalogApi get playgroundCatalogApi => _playgroundApi;
 /// );
 /// ```
 ///
-/// In this version the 56 components of [a2uiKitPortedComponents] render;
+/// In this version the 65 components of [a2uiKitPortedComponents] render;
 /// the others validate and draw nothing until they are ported. All 16
 /// functions run.
 ///

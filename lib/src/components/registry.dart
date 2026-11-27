@@ -6,21 +6,29 @@ import 'package:a2ui_kit/src/components/playground/charts/pie_chart.dart';
 import 'package:a2ui_kit/src/components/playground/charts/scatter_chart.dart';
 import 'package:a2ui_kit/src/components/playground/charts/sparkline.dart';
 import 'package:a2ui_kit/src/components/playground/content/heading.dart';
+import 'package:a2ui_kit/src/components/playground/content/quote.dart';
 import 'package:a2ui_kit/src/components/playground/data_display/agenda.dart';
 import 'package:a2ui_kit/src/components/playground/data_display/comparison_table.dart';
 import 'package:a2ui_kit/src/components/playground/data_display/key_value_list.dart';
+import 'package:a2ui_kit/src/components/playground/data_display/progress.dart';
+import 'package:a2ui_kit/src/components/playground/data_display/rating.dart';
 import 'package:a2ui_kit/src/components/playground/data_display/stat.dart';
+import 'package:a2ui_kit/src/components/playground/data_display/tag_list.dart';
 import 'package:a2ui_kit/src/components/playground/data_display/timeline.dart';
 import 'package:a2ui_kit/src/components/playground/feedback/alert_callout.dart';
 import 'package:a2ui_kit/src/components/playground/layout/section.dart';
+import 'package:a2ui_kit/src/components/standard/composites/entity_card.dart';
+import 'package:a2ui_kit/src/components/standard/composites/follow_up.dart';
 import 'package:a2ui_kit/src/components/standard/data/chart.dart';
 import 'package:a2ui_kit/src/components/standard/data/list.dart';
 import 'package:a2ui_kit/src/components/standard/data/table.dart';
+import 'package:a2ui_kit/src/components/standard/feedback/pulse_indicator.dart';
 import 'package:a2ui_kit/src/components/standard/inputs/button.dart';
 import 'package:a2ui_kit/src/components/standard/inputs/choices.dart';
 import 'package:a2ui_kit/src/components/standard/inputs/form.dart';
 import 'package:a2ui_kit/src/components/standard/inputs/select.dart';
 import 'package:a2ui_kit/src/components/standard/inputs/text_field.dart';
+import 'package:a2ui_kit/src/components/standard/layout/carousel.dart';
 import 'package:a2ui_kit/src/components/standard/layout/containers.dart';
 import 'package:a2ui_kit/src/components/standard/layout/flow.dart';
 import 'package:a2ui_kit/src/components/standard/layout/grid.dart';
@@ -54,6 +62,8 @@ const Map<String, ComponentWidgetBuilder> kitBuilders = {
   'FlowItem': buildFlowItem,
   'Spacer': buildSpacer,
   'Divider': buildDivider,
+  'Carousel': buildCarousel,
+  'CarouselItem': buildCarouselItem,
   // Standard: text.
   'Title': buildTitle,
   'Text': buildText,
@@ -87,15 +97,23 @@ const Map<String, ComponentWidgetBuilder> kitBuilders = {
   'Image': buildImage,
   'Icon': buildIcon,
   'Svg': buildSvg,
+  // Standard: composites and feedback.
+  'FollowUp': buildFollowUp,
+  'EntityCard': buildEntityCard,
+  'PulseIndicator': buildPulseIndicator,
   // Playground.
   'Section': buildSection,
   'Heading': buildHeading,
+  'Quote': buildQuote,
   'Stat': buildStat,
   'StatGroup': buildStatGroup,
   'KeyValueList': buildKeyValueList,
   'Agenda': buildAgenda,
   'Timeline': buildTimeline,
   'ComparisonTable': buildComparisonTable,
+  'Progress': buildProgress,
+  'Rating': buildRating,
+  'TagList': buildTagList,
   'Alert': buildAlert,
   'Callout': buildCallout,
   // Playground: charts.

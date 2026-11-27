@@ -1,3 +1,14 @@
+## Unreleased
+
+- TagList, Quote, PulseIndicator, Carousel and CarouselItem draw. Agenda
+  event text wraps to as many lines as it needs. 65 of the catalog's 121
+  components render; the other 56 validate and draw nothing yet.
+- Agenda, Timeline, ComparisonTable, Progress, Rating, EntityCard and
+  FollowUp draw.
+- Blueprint, the playground agent's stand-in while a component's props are
+  still streaming, draws when `A2uiKitOptions.includeBlueprint` is set. It
+  stays out of the exported catalog.
+
 ## 0.1.0
 
 The first release: 53 of the catalog's 121 components draw, and the other 68

@@ -73,7 +73,9 @@ void main() {
         'Markdown', 'Link', 'Button', 'Form', 'TextField', 'Select',
         'CheckBox', 'RadioGroup', 'List', 'ListItem', 'Image', 'Icon',
         'Section', 'Heading', 'Stat', 'StatGroup', 'KeyValueList', 'Alert',
-        'Callout', 'Agenda', 'Timeline', 'ComparisonTable',
+        'Callout', 'Agenda', 'Timeline', 'ComparisonTable', 'Progress',
+        'Rating', 'FollowUp', 'EntityCard', 'TagList', 'Quote',
+        'PulseIndicator', 'Carousel', 'CarouselItem',
         // Phase 2a.
         'Chart', 'LineChart', 'AreaChart', 'BarChart', 'PieChart', //
         'ScatterChart', 'Sparkline',

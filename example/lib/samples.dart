@@ -1,6 +1,11 @@
 // The playground's component previews (a2ui.open.bot and samples/*.ts),
 // for the components this version draws. A part that only renders inside
 // its parent (GridItem, TableRow, ListItem) uses the preview its page shows.
+// The menu lists them by name.
+
+import 'dart:collection';
+
+import 'package:a2ui_kit/a2ui_kit.dart';
 
 /// One gallery entry: the surface and, when props bind into it, the data.
 class GallerySample {
@@ -76,8 +81,171 @@ final List<Map<String, Object?>> _incidents = [
   },
 ];
 
-/// The sample surfaces of the gallery, in the official category order.
-final Map<String, GallerySample> gallerySamples = {
+/// The release-highlights carousel shared by Carousel and CarouselItem.
+final List<Map<String, Object?>> _carousel = [
+  {
+    'id': 'root',
+    'component': 'Carousel',
+    'label': 'Release highlights',
+    'visibleItems': 2,
+    'children': ['s1', 's2', 's3'],
+  },
+  {
+    'id': 's1',
+    'component': 'CarouselItem',
+    'children': ['s1_t', 's1_c'],
+  },
+  {'id': 's1_t', 'component': 'Title', 'text': 'Faster deploys'},
+  {
+    'id': 's1_c',
+    'component': 'Caption',
+    'text': 'Builds start in under ten seconds.',
+  },
+  {
+    'id': 's2',
+    'component': 'CarouselItem',
+    'children': ['s2_t', 's2_c'],
+  },
+  {'id': 's2_t', 'component': 'Title', 'text': 'Audit log'},
+  {
+    'id': 's2_c',
+    'component': 'Caption',
+    'text': 'Every change, who made it and when.',
+  },
+  {
+    'id': 's3',
+    'component': 'CarouselItem',
+    'children': ['s3_t', 's3_c'],
+  },
+  {'id': 's3_t', 'component': 'Title', 'text': 'Usage alerts'},
+  {
+    'id': 's3_c',
+    'component': 'Caption',
+    'text': 'A heads-up before you reach a limit.',
+  },
+];
+
+/// One plan card for [_carouselCards]: a fixed-width Card with icon, badge,
+/// copy and a CTA.
+List<Map<String, Object?>> _carouselCard({
+  required String id,
+  required String icon,
+  required String badge,
+  required String badgeColor,
+  required String title,
+  required String caption,
+  required String price,
+  required String cta,
+}) => [
+  {
+    'id': id,
+    'component': 'CarouselItem',
+    'width': 56,
+    'children': ['${id}_card'],
+  },
+  {
+    'id': '${id}_card',
+    'component': 'Card',
+    'variant': 'outline',
+    'padding': 4,
+    'gap': 3,
+    'children': [
+      '${id}_head',
+      '${id}_title',
+      '${id}_caption',
+      '${id}_price',
+      '${id}_cta',
+    ],
+  },
+  {
+    'id': '${id}_head',
+    'component': 'Row',
+    'align': 'center',
+    'justify': 'spaceBetween',
+    'children': ['${id}_icon', '${id}_badge'],
+  },
+  {
+    'id': '${id}_icon',
+    'component': 'Icon',
+    'name': icon,
+    'size': 'lg',
+    'label': title,
+  },
+  {
+    'id': '${id}_badge',
+    'component': 'Badge',
+    'label': badge,
+    'color': badgeColor,
+  },
+  {'id': '${id}_title', 'component': 'Title', 'text': title},
+  {'id': '${id}_caption', 'component': 'Caption', 'text': caption},
+  {
+    'id': '${id}_price',
+    'component': 'Text',
+    'text': price,
+    'fontWeight': 'semibold',
+  },
+  {
+    'id': '${id}_cta',
+    'component': 'Button',
+    'label': cta,
+    'variant': 'primary',
+    'block': true,
+  },
+];
+
+/// A denser carousel of plan cards, for the gallery's second Carousel entry.
+final List<Map<String, Object?>> _carouselCards = [
+  {
+    'id': 'root',
+    'component': 'Carousel',
+    'label': 'Plans',
+    'children': ['starter', 'pro', 'team', 'enterprise'],
+  },
+  ..._carouselCard(
+    id: 'starter',
+    icon: 'zap',
+    badge: 'Free',
+    badgeColor: 'secondary',
+    title: 'Starter',
+    caption: 'One project, community support, and the shared runner pool.',
+    price: r'$0 / mo',
+    cta: 'Start free',
+  ),
+  ..._carouselCard(
+    id: 'pro',
+    icon: 'rocket',
+    badge: 'Popular',
+    badgeColor: 'info',
+    title: 'Pro',
+    caption: 'Unlimited projects, audit log, and usage alerts before a limit.',
+    price: r'$24 / seat',
+    cta: 'Upgrade',
+  ),
+  ..._carouselCard(
+    id: 'team',
+    icon: 'users',
+    badge: 'Teams',
+    badgeColor: 'success',
+    title: 'Team',
+    caption: 'SSO, shared drafts, and a dedicated success manager.',
+    price: r'$48 / seat',
+    cta: 'Talk to sales',
+  ),
+  ..._carouselCard(
+    id: 'enterprise',
+    icon: 'building-2',
+    badge: 'Custom',
+    badgeColor: 'warning',
+    title: 'Enterprise',
+    caption: 'VPC deploy, custom SLAs, and a named solutions architect.',
+    price: 'Contact us',
+    cta: 'Book a call',
+  ),
+];
+
+/// The sample surfaces of the gallery, listed by name.
+final Map<String, GallerySample> gallerySamples = SplayTreeMap.of({
   // Layout.
   'Section': GallerySample([
     {
@@ -106,6 +274,15 @@ final Map<String, GallerySample> gallerySamples = {
       'text': 'Three days in Tokyo',
       'subtitle':
           'Food markets, quiet temples and one very late night in Shinjuku.',
+    },
+  ]),
+  'Quote': GallerySample([
+    {
+      'id': 'root',
+      'component': 'Quote',
+      'text': 'The best interface is the one that shows up already filled in.',
+      'author': 'Maya Chen',
+      'role': 'Head of Design, Lattice',
     },
   ]),
   // Data display.
@@ -219,6 +396,41 @@ final Map<String, GallerySample> gallerySamples = {
           'feature': 'Uptime SLA',
           'values': <Object?>['', '99.9%', '99.99%'],
         },
+      ],
+    },
+  ]),
+  'Progress': GallerySample([
+    {
+      'id': 'root',
+      'component': 'Progress',
+      'label': 'Storage used',
+      'value': 72,
+      'caption': '72 GB of 100 GB, resets Nov 1',
+      'tone': 'accent',
+    },
+  ]),
+  'Rating': GallerySample([
+    {
+      'id': 'root',
+      'component': 'Rating',
+      'value': 4.6,
+      'count': 1284,
+      'label': 'Customer rating',
+    },
+  ]),
+  // Official docs sample (a2ui-playground …/components/TagList).
+  'TagList': GallerySample([
+    {
+      'id': 'root',
+      'component': 'TagList',
+      'tags': [
+        'TypeScript',
+        'React 19',
+        'Edge runtime',
+        'Postgres',
+        'OpenTelemetry',
+        'Tailwind',
+        'pnpm',
       ],
     },
   ]),
@@ -418,6 +630,17 @@ final Map<String, GallerySample> gallerySamples = {
       },
     },
   ]),
+  'PulseIndicator': GallerySample([
+    {
+      'id': 'root',
+      'component': 'Row',
+      'gap': 2,
+      'align': 'center',
+      'children': ['dot', 't'],
+    },
+    {'id': 'dot', 'component': 'PulseIndicator'},
+    {'id': 't', 'component': 'Text', 'text': 'Live: 1,204 visitors now'},
+  ]),
   // Standard layout.
   'Box': GallerySample([
     {
@@ -504,6 +727,9 @@ final Map<String, GallerySample> gallerySamples = {
     {'id': 'narrow_t', 'component': 'Title', 'text': 'Owner'},
     {'id': 'narrow_c', 'component': 'Caption', 'text': 'One column.'},
   ]),
+  'Carousel': GallerySample(_carousel),
+  'Carousel cards': GallerySample(_carouselCards),
+  'CarouselItem': GallerySample(_carousel),
   'Card': GallerySample(
     [
       {
@@ -880,6 +1106,35 @@ final Map<String, GallerySample> gallerySamples = {
       ],
     },
   ]),
+  'FollowUp': GallerySample([
+    {
+      'id': 'root',
+      'component': 'FollowUp',
+      'title': 'Try next',
+      'items': [
+        'Compare with last quarter',
+        'Break down by region',
+        'Export as CSV',
+      ],
+    },
+  ]),
+  // Official macro samples, already expanded into standard components.
+  'FlightCard': GallerySample(expandMacroSample('FlightCard')),
+  'WeatherReport': GallerySample(expandMacroSample('WeatherReport')),
+  'EntityCard': GallerySample([
+    {
+      'id': 'root',
+      'component': 'EntityCard',
+      'title': 'Trailhead Daypack 22L',
+      'subtitle': 'Backpacks',
+      'description':
+          'A light pack with a padded laptop sleeve and a rain cover.',
+      'meta': r'$89',
+      'badge': {'label': 'In stock', 'color': 'success'},
+      'rating': 4.6,
+      'ratingCount': 312,
+    },
+  ]),
   // The playground agent's stand-in: a frame sized for the component
   // whose props are still streaming, captioned with the name already
   // written. `#stops` is an id whose type has not arrived.
@@ -928,7 +1183,7 @@ final Map<String, GallerySample> gallerySamples = {
       'state': 'streaming',
     },
   ]),
-};
+});
 
 const List<String> _months = [
   'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', //

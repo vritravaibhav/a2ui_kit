@@ -14,10 +14,12 @@ import 'package:intl/intl.dart';
 /// beside its events. An event is a well with a 2px tone bar (the chart
 /// palette in turn when `tone` is missing), a 64px time ("All day" when
 /// unset), the title, an
-/// optional speaker and a two-line description, and a location with a map
-/// pin. A day with no events says "Nothing scheduled". A `YYYY-MM-DD` date
-/// is local midnight. Props may be data bindings; the catalog resolves
-/// them before this builds.
+/// optional speaker and a wrapping description, and a location with a map
+/// pin. Event title, speaker, description and location wrap to as many
+/// lines as they need (the React port truncated some of those to one or
+/// two lines). A day with no events says "Nothing scheduled". A
+/// `YYYY-MM-DD` date is local midnight. Props may be data bindings; the
+/// catalog resolves them before this builds.
 Widget buildAgenda(
   BuildContext context,
   KitNode node,
@@ -246,9 +248,6 @@ class _AgendaEvent extends StatelessWidget {
                 children: [
                   Text(
                     playgroundString(ComponentProps.unwrap(event['title'])),
-                    maxLines: 1,
-                    softWrap: false,
-                    overflow: TextOverflow.ellipsis,
                     style: playgroundText(
                       13,
                       weight: FontWeight.w500,
@@ -256,18 +255,10 @@ class _AgendaEvent extends StatelessWidget {
                     ),
                   ),
                   if (speaker != null && speaker.isNotEmpty)
-                    Text(
-                      speaker,
-                      maxLines: 1,
-                      softWrap: false,
-                      overflow: TextOverflow.ellipsis,
-                      style: muted,
-                    ),
+                    Text(speaker, style: muted),
                   if (description != null && description.isNotEmpty)
                     Text(
                       description,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
                       style: playgroundText(
                         11.5,
                         height: 1.375,
@@ -276,19 +267,20 @@ class _AgendaEvent extends StatelessWidget {
                     ),
                   if (location != null && location.isNotEmpty)
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        LucideGlyph(
-                          lucideImport('MapPin', LucideRelease.playground),
-                          size: 12,
-                          color: tokens.mutedForeground,
+                        Padding(
+                          padding: const EdgeInsets.only(top: 1),
+                          child: LucideGlyph(
+                            lucideImport('MapPin', LucideRelease.playground),
+                            size: 12,
+                            color: tokens.mutedForeground,
+                          ),
                         ),
                         const SizedBox(width: 4),
                         Expanded(
                           child: Text(
                             location,
-                            maxLines: 1,
-                            softWrap: false,
-                            overflow: TextOverflow.ellipsis,
                             style: playgroundText(
                               11,
                               color: tokens.mutedForeground,

@@ -19,8 +19,8 @@ unchanged.
 
 ## Why a2ui_kit
 
-- **53 components today**, more in every release: layout, text, maths,
-  tables, charts, forms, lists and media.
+- **65 components today**, more in every release: layout, text, maths,
+  tables, charts, forms, lists, schedules, ratings and media.
 - **The same JSON as the web.** Component names, props and JSON Schemas are
   CopilotKit's, and an agent's messages are checked as CopilotKit checks
   them, with the same error messages back to the agent.
@@ -35,17 +35,30 @@ unchanged.
 
 | Group | Components |
 |---|---|
-| Layout | Box, Column, Row, Grid, GridItem, Card, Flow, FlowItem, Section, Spacer, Divider |
-| Text | Title, Heading, Text, Caption, Label, Bold, Italic, Underline, Strikethrough, Badge, Blockquote, Code, Markdown, Math, Link |
-| Data | Table, TableSection, TableRow, TableCell, List, ListItem, KeyValueList, Stat, StatGroup |
+| Layout | Box, Column, Row, Grid, GridItem, Card, Flow, FlowItem, Carousel, CarouselItem, Section, Spacer, Divider |
+| Text | Title, Heading, Text, Caption, Label, Bold, Italic, Underline, Strikethrough, Badge, Blockquote, Code, Markdown, Math, Link, Quote |
+| Data | Table, TableSection, TableRow, TableCell, List, ListItem, KeyValueList, Stat, StatGroup, Agenda, ComparisonTable, Progress, Rating, TagList, Timeline |
 | Charts | LineChart, AreaChart, BarChart, PieChart, ScatterChart, Sparkline, Chart |
 | Forms | Form, TextField, Select, CheckBox, RadioGroup, Button |
-| Media and notices | Image, Icon, Svg, Alert, Callout |
+| Cards and prompts | EntityCard, FollowUp |
+| Media and notices | Image, Icon, Svg, Alert, Callout, PulseIndicator |
 
-All 16 functions run, `calc` and `series` included. The catalog's other 68
+All 16 functions run, `calc` and `series` included. The catalog's other 56
 components (practice cards, maps, more charts, business cards and more) are
 in the catalog already, so payloads that use them validate, but they draw
 nothing yet: they arrive release by release.
+
+`Blueprint` is outside that catalog. The playground's agent emits it while a
+component's props are still streaming (`of`, `h`, `state`, `hideName`).
+`A2uiKitOptions(includeBlueprint: true)` draws those frames; the default
+catalog leaves the name out, as CopilotKit's exported catalog does.
+
+### Macros
+
+`FlightCard` and `WeatherReport` are model-facing only: the render catalog
+does not list them. `a2uiKitMacros` expands each call into the standard
+components above (a WeatherReport needs a forecast, or `fetchWeather`).
+`ProductCard` still expands only on the server.
 
 ## Setup
 
@@ -194,7 +207,11 @@ band, stack and arc shapes, nor recharts' axes, so the look would differ.
 - `a2uiKitCatalogPrompt()` turns it into a prompt: the playground's design
   rules, then one line per component and function.
 
-The client never expands macros: as in the playground, the server does.
+`a2uiKitMacros` expands FlightCard and WeatherReport into the standard
+components they become (WeatherReport needs a forecast, or
+`fetchWeather`). ProductCard still expands only on the server. The render
+catalog does not list the macros: a stray one on the wire fails like any
+unknown component.
 
 ## Look and theme
 
