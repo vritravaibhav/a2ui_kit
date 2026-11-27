@@ -6,7 +6,7 @@
 // names its upstream line.
 //
 // Parity for: (engine)
-// Signals for: EntityCard, Map
+// Signals for: Map
 //
 // standard-ui.test.tsx tests the standard catalog as a whole: its groups
 // and the fixture that uses every standard component once. It ports no
@@ -25,14 +25,14 @@
 // Not ported (bound to internals): none.
 //
 // Later phase (no Dart yet):
-// - :72 two of the five texts it finds, and the `vi.mock("maplibre-gl")`
-//   (file top) that makes the Map show its list of places: "Café Central"
-//   (EntityCard) and "Graz" (the Map's list of places: Map). The title,
-//   "Linus" (a template row: Table, TableSection, TableRow, TableCell),
-//   "Walk dog" (List items from a template: List, ListItem) and the absence
-//   of a reported error are ported; the two texts are expected absent while
-//   those components draw nothing, so the test fails, as a signal to port
-//   them, once one is built.
+// - :72 one of the five texts it finds, and the `vi.mock("maplibre-gl")`
+//   (file top) that makes the Map show its list of places: "Graz" (the
+//   Map's list of places: Map). The title, "Linus" (a template row: Table,
+//   TableSection, TableRow, TableCell), "Walk dog" (List items from a
+//   template: List, ListItem), "Café Central" (EntityCard) and the absence
+//   of a reported error are ported. "Graz" is expected absent while the
+//   Map draws nothing, so the test fails, as a signal to port it, once it
+//   is built.
 
 import 'dart:convert';
 
@@ -201,10 +201,9 @@ void main() {
       // Template rows, template list items.
       expect(find.text('Linus', findRichText: true), findsOneWidget);
       expect(find.text('Walk dog', findRichText: true), findsOneWidget);
-      // Later phase: an EntityCard and the Map's list of places draw
-      // nothing yet. When one of these fails, its component is built: port
-      // upstream's `getByText` for it here.
-      expect(find.text('Café Central', findRichText: true), findsNothing);
+      expect(find.text('Café Central', findRichText: true), findsOneWidget);
+      // Later phase: the Map's list of places draws nothing yet. When this
+      // fails, the Map is built: port upstream's `getByText` for it here.
       expect(find.text('Graz', findRichText: true), findsNothing);
       expect(view.errors, isEmpty);
     });

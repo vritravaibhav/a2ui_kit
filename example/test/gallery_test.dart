@@ -111,6 +111,10 @@ void main() {
   });
 
   testWidgets('shows an action with the agent ids', (tester) async {
+    // The walk passes Blueprint, whose outline keeps flowing.
+    tester.platformDispatcher.accessibilityFeaturesTestValue =
+        const FakeAccessibilityFeatures(disableAnimations: true);
+    addTearDown(tester.platformDispatcher.clearAccessibilityFeaturesTestValue);
     await tester.pumpWidget(const GalleryApp());
     // The menu builds the items near the chosen one: step through them.
     for (final name in gallerySamples.keys.skip(1)) {

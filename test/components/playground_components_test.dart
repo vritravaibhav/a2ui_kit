@@ -1,6 +1,7 @@
 // Widget tests of the playground's Section, Heading, Stat, StatGroup,
-// KeyValueList, Agenda, Timeline, ComparisonTable, Alert and Callout,
-// after its renderers (layout, content, data and feedback .tsx).
+// KeyValueList, Agenda, Timeline, ComparisonTable, Progress, Rating,
+// Alert and Callout, after its renderers (layout, content, data and
+// feedback .tsx).
 
 import 'package:a2ui_kit/a2ui_kit.dart';
 import 'package:a2ui_kit/src/components/playground/data_display/kpi.dart';
@@ -965,6 +966,93 @@ void main() {
       );
       expect(find.text('Bound plans'), findsOneWidget);
       expect(find.text('Ready'), findsOneWidget);
+    });
+  });
+
+  group('Progress', () {
+    testWidgets('draws the label, the rounded percent and the caption', (
+      tester,
+    ) async {
+      await pumpComponents(tester, theme: _light, [
+        _root({
+          'component': 'Progress',
+          'label': 'Storage used',
+          'value': 72,
+          'caption': '72 GB of 100 GB, resets Nov 1',
+          'tone': 'accent',
+        }),
+      ]);
+      expect(find.text('Storage used'), findsOneWidget);
+      expect(find.text('72%'), findsOneWidget);
+      expect(find.text('72 GB of 100 GB, resets Nov 1'), findsOneWidget);
+      expect(
+        find.byWidgetPredicate(
+          (widget) =>
+              widget is ColoredBox &&
+              widget.color == _light.playground.toneColor(A2uiTone.accent),
+        ),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('clamps the value to 0-100 and falls back to accent', (
+      tester,
+    ) async {
+      await pumpComponents(tester, theme: _light, [
+        _root({'component': 'Progress', 'label': 'Over', 'value': 140}),
+      ]);
+      expect(find.text('100%'), findsOneWidget);
+      expect(
+        find.byWidgetPredicate(
+          (widget) =>
+              widget is ColoredBox &&
+              widget.color == _light.playground.toneColor(A2uiTone.accent),
+        ),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('reads a bound value', (tester) async {
+      await pumpComponents(
+        tester,
+        theme: _light,
+        [
+          _root({
+            'component': 'Progress',
+            'label': 'Used',
+            'value': {'@path': '/used'},
+          }),
+        ],
+        data: {'used': 40},
+      );
+      expect(find.text('40%'), findsOneWidget);
+    });
+  });
+
+  group('Rating', () {
+    testWidgets('draws the stars, one decimal and the review count', (
+      tester,
+    ) async {
+      await pumpComponents(tester, theme: _light, [
+        _root({
+          'component': 'Rating',
+          'value': 4.6,
+          'count': 1284,
+          'label': 'Customer rating',
+        }),
+      ]);
+      expect(find.text('Customer rating'), findsOneWidget);
+      expect(find.text('4.6'), findsOneWidget);
+      expect(find.text('1,284 reviews'), findsOneWidget);
+      expect(find.bySemanticsLabel('4.6 out of 5 stars'), findsOneWidget);
+    });
+
+    testWidgets('clamps a value above 5', (tester) async {
+      await pumpComponents(tester, theme: _light, [
+        _root({'component': 'Rating', 'value': 9}),
+      ]);
+      expect(find.text('5.0'), findsOneWidget);
+      expect(find.bySemanticsLabel('5.0 out of 5 stars'), findsOneWidget);
     });
   });
 }

@@ -4,10 +4,11 @@
 // composites.test.tsx (MIT, (c) Atai Barkai). Each test names its upstream
 // line.
 //
-// Parity for: Image, Button
+// Parity for: Image, Button, FollowUp, EntityCard
 //
-// Most of the file tests the composites, which are later phase. The
-// manifest test (:21) reads the group object `compositeComponents`; here
+// FollowUp and EntityCard are ported below. The rest of the composites
+// are later phase. The manifest test (:21) reads the group object
+// `compositeComponents`; here
 // its facts come from the catalog document: the group is the run of five
 // names in the standard catalog's order, and the events are the generated
 // `eventArguments` (CopilotKit's event declarations). Upstream's
@@ -33,11 +34,6 @@
 //   sends the event": LinkCard.
 // - :71 "Citation shows its source on click" (beside an inline Text in a
 //   Row): Citation.
-// - :99 "FollowUp dispatches the item's message as an action" and :119
-//   "FollowUp sends its message without an onFollowUp binding": FollowUp.
-// - :136 "EntityCard renders title, meta, badge, rating and action
-//   buttons" and :162 "EntityCard with href opens the page and a button
-//   with href opens its URL": EntityCard.
 // - :188 "ImageGrid renders every image and opens the lightbox on click"
 //   and :214 "ImageGrid lightbox walks through all images with the arrows
 //   and keys": ImageGrid.
@@ -271,6 +267,111 @@ void main() {
         ),
         findsOneWidget,
       );
+    });
+  });
+
+  group('FollowUp and EntityCard', () {
+    // composites.test.tsx:99
+    testWidgets("FollowUp dispatches the item's message as an action", (
+      tester,
+    ) async {
+      final view = await renderStandard(tester, [
+        {
+          'id': 'root',
+          'component': 'FollowUp',
+          'title': 'Next',
+          'items': [
+            'Cheaper version',
+            {'label': 'Luxury', 'message': 'Make it luxury'},
+          ],
+          'onFollowUp': {
+            'event': {'name': 'follow_up'},
+          },
+        },
+      ]);
+      await tester.tap(_button(tester, 'Luxury'));
+      await tester.pump();
+      expect(view.actions, hasLength(1));
+      expect(view.actions.single.name, 'follow_up');
+      expect(view.actions.single.context, {'message': 'Make it luxury'});
+    });
+
+    // composites.test.tsx:119
+    testWidgets('FollowUp sends its message without an onFollowUp binding', (
+      tester,
+    ) async {
+      final view = await renderStandard(tester, [
+        {
+          'id': 'root',
+          'component': 'FollowUp',
+          'items': ['Make it cheaper'],
+        },
+      ]);
+      await tester.tap(_button(tester, 'Make it cheaper'));
+      await tester.pump();
+      final action = view.actions.single;
+      expect(action.name, 'follow_up');
+      expect(action.sourceComponentId, 'root');
+      expect(action.userMessage, 'Make it cheaper');
+    });
+
+    // composites.test.tsx:136
+    testWidgets('EntityCard renders title, meta, badge, rating and action '
+        'buttons', (tester) async {
+      final view = await renderStandard(tester, [
+        {
+          'id': 'root',
+          'component': 'EntityCard',
+          'title': 'Café Central',
+          'subtitle': 'Coffee house',
+          'description': 'Grand historic café.',
+          'meta': 'Open until 22:00',
+          'badge': {'label': 'Popular', 'color': 'success'},
+          'rating': 4.5,
+          'ratingCount': 1200,
+          'actions': [
+            {'label': 'Pick'},
+          ],
+          'onAction': {
+            'event': {'name': 'pick'},
+          },
+        },
+      ]);
+      expect(find.text('Café Central'), findsOneWidget);
+      expect(find.text('Open until 22:00'), findsOneWidget);
+      expect(find.text('Popular'), findsOneWidget);
+      expect(find.bySemanticsLabel('4.5 out of 5'), findsOneWidget);
+      await tester.tap(_button(tester, 'Pick'));
+      await tester.pump();
+      expect(view.actions, hasLength(1));
+      expect(view.actions.single.name, 'pick');
+      expect(view.actions.single.context, {'label': 'Pick'});
+    });
+
+    // composites.test.tsx:162
+    testWidgets('EntityCard with href opens the page and a button with href '
+        'opens its URL', (tester) async {
+      final launcher = fakeUrlLauncher();
+      final view = await renderStandard(tester, [
+        {
+          'id': 'root',
+          'component': 'EntityCard',
+          'title': 'Sacher',
+          'href': 'https://sacher.example',
+          'actions': [
+            {'label': 'Directions', 'href': 'https://maps.example'},
+          ],
+        },
+      ]);
+      await tester.tap(_button(tester, 'Directions'));
+      await tester.pump();
+      await tester.tap(find.text('Sacher'));
+      await tester.pump();
+      expect(launcher.opened, [
+        openedInNewTab('https://maps.example'),
+        openedInNewTab('https://sacher.example'),
+      ]);
+      expect(view.actions, isEmpty);
     });
   });
 }

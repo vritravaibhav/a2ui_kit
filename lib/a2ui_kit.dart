@@ -67,6 +67,39 @@ export 'src/foundation/interaction/form_scope.dart'
         FormSubmitButton,
         FormValidationMessages;
 export 'src/ids/id_normalizer.dart';
+export 'src/macros/macro.dart'
+    show
+        ExpandedMacros,
+        MacroDefinition,
+        MacroExpander,
+        MacroExpansion,
+        MacroNode,
+        derive,
+        flatten,
+        given,
+        h,
+        isDynamic,
+        join;
+export 'src/macros/macros.dart'
+    show
+        a2uiKitMacros,
+        expandFlightCard,
+        expandMacroSample,
+        expandWeatherReport,
+        flightCardMacro,
+        flightCardSampleCall,
+        weatherReportMacro,
+        weatherReportSampleCall;
+export 'src/macros/weather.dart'
+    show
+        Weather,
+        WeatherCurrent,
+        WeatherDay,
+        WeatherHour,
+        WeatherPlace,
+        sampleLisbonWeather;
+export 'src/macros/weather_fetch.dart'
+    show A2uiJsonGet, describeWmo, fetchWeather;
 export 'src/theme/a2ui_kit_theme.dart';
 export 'src/theme/chart_colors.dart';
 export 'src/theme/playground_tokens.dart';

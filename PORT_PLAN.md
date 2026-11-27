@@ -500,18 +500,19 @@ client, following the A2UI Python SDK's `MacroExpander`:
 | ProductCard | name, price, compareAt?, image?, rating?, reviews?, badge?, specs?[], actionLabel?; event `onAction` | Card, Row, Image, Title, Text, Caption, Icon, Badge, List, Button | none |
 | WeatherReport | location, unit? (C or F) | Card, Row, Column, Title, Caption, Text, Icon, Chart, List | **fetches** a forecast on the server (Open-Meteo) |
 
-**Recommendation: the client package does not expand macros.** In the playground the client never sees them, and
-`catalog.json` (the render contract) does not list them. A Flutter app talking to any CopilotKit-style agent gets
-plain components. What the package does instead:
+**This package expands FlightCard and WeatherReport** via `a2uiKitMacros`
+(`lib/src/macros/`). `catalog.json` (the render contract) still does not
+list them: a Flutter app talking to a CopilotKit-style agent that already
+expanded gets plain components, and a stray macro on the wire fails like
+any unknown component. ProductCard still expands only on the server.
 
 1. It ships `inference-catalog.json` as a document, for apps whose Dart code prompts a model.
-2. It renders every component the expansions use. Phase 1 covers all of them except `Chart` (phase 2), so
-   FlightCard and ProductCard expansions render fully after phase 1.
+2. It renders every component the FlightCard and WeatherReport expansions
+   use (including Chart).
 3. It tests that a stray macro on the wire fails the way an unknown component does: `a2ui_core` reports it, and
    nothing crashes.
-
-A pure-Dart `MacroExpander` (FlightCard and ProductCard need no data) could become a separate library later, if a
-Dart agent wants it. It is out of scope for v1.
+4. `fetchWeather` loads Open-Meteo for a live WeatherReport; gallery
+   samples expand a fixed Lisbon forecast with no network.
 
 ---
 
@@ -1146,8 +1147,8 @@ Where the code departs from this plan, or cannot match CopilotKit, found while b
 
 **Found for later phases**
 
-24. `Blueprint` (the playground agent's stand-in) is still not built, so the replays report it as an unknown
-    component; `includeBlueprint` stays planned.
+24. `Blueprint` (the playground agent's stand-in) draws when `A2uiKitOptions.includeBlueprint` is set, and
+    stays out of the exported catalog. The gallery and the replays turn it on. See Appendix A.
 25. `standard-all.json`'s TextArea draws nothing until phase 4, though TextField's `longText` already is one.
 26. `a2ui_flutter` does not export its write-back helper, so a2ui_kit has its own (`valueWriter`).
 
@@ -3783,8 +3784,8 @@ in section 2.
 
 ### Blueprint (internal, not in the catalog)
 
-Blueprint is not in `catalog.json`: the playground's agent emits `{component: "Blueprint", of, h, state}` while a component's props stream, and for fixed-template slots. It renders a pulsing block (`h ?? SLOT[of]`, default 72px, radius 12). The replay fixtures contain it.
+Blueprint is not in `catalog.json`: the playground's agent emits `{component: "Blueprint", of, h, state, hideName}` while a component's props stream, and for fixed-template slots. It renders a frame (`h`, else the slot of `of`, 72px when `of` is missing or an id, and at least 28px) whose caption is `of` with one leading `#` removed. `hideName` draws the frame with no caption. The replay fixtures contain it.
 
-Recommendation: ship it as an opt-in extra component (`includeBlueprint: true`), outside the exported schema, so the
+It ships as an opt-in extra component (`includeBlueprint: true`), outside the exported schema, so the
 replays and any playground agent stream render the way the playground does. It is off by default, because a strict
-client should reject names its catalog does not declare.
+client refuses a name its catalog does not declare. The gallery and the recorded replays pass `includeBlueprint: true`.

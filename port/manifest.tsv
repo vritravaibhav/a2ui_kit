@@ -65,8 +65,8 @@ n	component	source	group	size	phase	status	dart_file	confidence	todos	parity	sig
 64	HtmlView	standard	Media	L	3	todo					test/parity/data_media_parity_test.dart		packages/shared/src/generative-ui/standard/media.ts
 65	LinkCard	standard	Composites	S	5	todo							packages/shared/src/generative-ui/standard/composites.ts
 66	Citation	standard	Composites	M	4	todo							packages/shared/src/generative-ui/standard/composites.ts
-67	FollowUp	standard	Composites	S	4	todo							packages/shared/src/generative-ui/standard/composites.ts
-68	EntityCard	standard	Composites	M	5	todo					test/parity/standard_ui_test.dart		packages/shared/src/generative-ui/standard/composites.ts
+67	FollowUp	standard	Composites	S	4	built	lib/src/components/standard/composites/follow_up.dart	high	0	test/parity/composites_test.dart			packages/shared/src/generative-ui/standard/composites.ts
+68	EntityCard	standard	Composites	M	5	built	lib/src/components/standard/composites/entity_card.dart	high	0	test/parity/composites_test.dart			packages/shared/src/generative-ui/standard/composites.ts
 69	ImageGrid	standard	Composites	M	3	todo							packages/shared/src/generative-ui/standard/composites.ts
 70	Section	playground	Layout	S	1	built	lib/src/components/playground/layout/section.dart	high	0				examples/showcases/a2ui-playground/src/a2ui/catalog/definitions/layout.ts
 71	Accordion	playground	Layout	S	4	todo							examples/showcases/a2ui-playground/src/a2ui/catalog/definitions/layout.ts
@@ -83,9 +83,9 @@ n	component	source	group	size	phase	status	dart_file	confidence	todos	parity	sig
 82	DataTable	playground	Data display	L	5	todo							examples/showcases/a2ui-playground/src/a2ui/catalog/definitions/data.ts
 83	KeyValueList	playground	Data display	M	1	built	lib/src/components/playground/data_display/key_value_list.dart	medium	0				examples/showcases/a2ui-playground/src/a2ui/catalog/definitions/data.ts
 84	Timeline	playground	Data display	S	5	built	lib/src/components/playground/data_display/timeline.dart	high	0				examples/showcases/a2ui-playground/src/a2ui/catalog/definitions/data.ts
-85	Progress	playground	Data display	S	5	todo							examples/showcases/a2ui-playground/src/a2ui/catalog/definitions/data.ts
+85	Progress	playground	Data display	S	5	built	lib/src/components/playground/data_display/progress.dart	high	0				examples/showcases/a2ui-playground/src/a2ui/catalog/definitions/data.ts
 86	RadialProgress	playground	Data display	S	5	todo							examples/showcases/a2ui-playground/src/a2ui/catalog/definitions/data.ts
-87	Rating	playground	Data display	S	5	todo							examples/showcases/a2ui-playground/src/a2ui/catalog/definitions/data.ts
+87	Rating	playground	Data display	S	5	built	lib/src/components/playground/data_display/rating.dart	high	0				examples/showcases/a2ui-playground/src/a2ui/catalog/definitions/data.ts
 88	TagList	playground	Data display	S	5	todo							examples/showcases/a2ui-playground/src/a2ui/catalog/definitions/data.ts
 89	Agenda	playground	Data display	M	5	built	lib/src/components/playground/data_display/agenda.dart	high	0				examples/showcases/a2ui-playground/src/a2ui/catalog/definitions/data.ts
 90	ComparisonTable	playground	Data display	M	5	built	lib/src/components/playground/data_display/comparison_table.dart	high	0				examples/showcases/a2ui-playground/src/a2ui/catalog/definitions/data.ts

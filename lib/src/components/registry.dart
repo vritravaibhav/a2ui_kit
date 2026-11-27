@@ -9,10 +9,14 @@ import 'package:a2ui_kit/src/components/playground/content/heading.dart';
 import 'package:a2ui_kit/src/components/playground/data_display/agenda.dart';
 import 'package:a2ui_kit/src/components/playground/data_display/comparison_table.dart';
 import 'package:a2ui_kit/src/components/playground/data_display/key_value_list.dart';
+import 'package:a2ui_kit/src/components/playground/data_display/progress.dart';
+import 'package:a2ui_kit/src/components/playground/data_display/rating.dart';
 import 'package:a2ui_kit/src/components/playground/data_display/stat.dart';
 import 'package:a2ui_kit/src/components/playground/data_display/timeline.dart';
 import 'package:a2ui_kit/src/components/playground/feedback/alert_callout.dart';
 import 'package:a2ui_kit/src/components/playground/layout/section.dart';
+import 'package:a2ui_kit/src/components/standard/composites/entity_card.dart';
+import 'package:a2ui_kit/src/components/standard/composites/follow_up.dart';
 import 'package:a2ui_kit/src/components/standard/data/chart.dart';
 import 'package:a2ui_kit/src/components/standard/data/list.dart';
 import 'package:a2ui_kit/src/components/standard/data/table.dart';
@@ -87,6 +91,9 @@ const Map<String, ComponentWidgetBuilder> kitBuilders = {
   'Image': buildImage,
   'Icon': buildIcon,
   'Svg': buildSvg,
+  // Standard: composites.
+  'FollowUp': buildFollowUp,
+  'EntityCard': buildEntityCard,
   // Playground.
   'Section': buildSection,
   'Heading': buildHeading,
@@ -96,6 +103,8 @@ const Map<String, ComponentWidgetBuilder> kitBuilders = {
   'Agenda': buildAgenda,
   'Timeline': buildTimeline,
   'ComparisonTable': buildComparisonTable,
+  'Progress': buildProgress,
+  'Rating': buildRating,
   'Alert': buildAlert,
   'Callout': buildCallout,
   // Playground: charts.
